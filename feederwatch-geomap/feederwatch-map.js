@@ -96,7 +96,7 @@ function getMinMaxDates(zoom) {
     // collection.
     $.ajax({
         type: 'POST',
-        url: '/service/mongo/' + mongo.server + '/' + mongo.db + '/' + mongo.coll,
+        url: 'service/retrieve_interactions',
         data: {
             sort: JSON.stringify([['unixtime', -1]]),
             limit: 1,
@@ -245,15 +245,8 @@ function retrieveData() {
 
     flickr.currentAjax = $.ajax({
         type: 'POST',
-        url: '/service/mongo/' + mongo.server + '/' + mongo.db + '/' + mongo.coll,
-        data: {
-            query: JSON.stringify(mongoquery),
-            //limit: d3.select("#record-limit").node().value,
-            sort: JSON.stringify([['date', 1]])
-            //sort: JSON.stringify([[]])
-        },
-        dataType: 'json',
-        success: function (response) {
+        url: 'service/retrieve_interactions',
+        success: function (responsestring) {
             var N,
                 data;
 
@@ -261,8 +254,8 @@ function retrieveData() {
             // Remove the stored XHR object.
             flickr.currentAjax = null;
 
-            // Indicate success, display the number of records, and disable the
-            // button.
+            // convert from string back to an object and process the object
+            var response = JSON.parse(responsestring)
             N = response.result.data.length;
             /*
             d3.select("#abort")
