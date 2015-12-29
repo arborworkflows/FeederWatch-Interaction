@@ -1,0 +1,176 @@
+<!doctype html>
+<meta charset=utf-8>
+
+<style>
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        padding-top: 50px;
+    }
+</style>
+
+<link href=http://code.jquery.com/ui/1.9.1/themes/smoothness/jquery-ui.css rel=stylesheet>
+<link href=http://bootswatch.com/cosmo/bootstrap.min.css rel=stylesheet type=text/css>
+<link href=//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css rel=stylesheet>
+
+<script src=http://d3js.org/d3.v3.min.js></script>
+<script src=http://code.jquery.com/jquery-1.9.1.js></script>
+<script src=http://code.jquery.com/ui/1.9.1/jquery-ui.js></script>
+<script src=http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js></script>
+<script src=/js/tangelo.js></script>
+
+<script src=tableExplorer.js></script>
+
+<!-- begin declaration for interactive table -->
+
+        <script src="js/editablegrid.js"></script>
+        <script src="js/editablegrid_renderers.js" ></script>
+        <script src="js/editablegrid_editors.js" ></script>
+        <script src="js/editablegrid_validators.js" ></script>
+        <script src="js/editablegrid_utils.js" ></script>
+        <script src="js/editablegrid_charts.js" ></script>
+
+        <link rel="stylesheet" href="editablegrid.css" type="text/css" media="screen">
+
+        <style>
+            body { font-family:'lucida grande', tahoma, verdana, arial, sans-serif; font-size:12px; }
+            h1 { font-size: 16px; }
+            a { color: #548dc4; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            table.testgrid { border-collapse: collapse; border: 1px solid #CCB; width: 800px; }
+            table.testgrid td, table.testgrid th { padding: 5px; border: 1px solid #E0E0E0; }
+            table.testgrid th { background: #E5E5E5; text-align: left; }
+            input.invalid { background: red; color: #FDFDFD; }
+        </style>
+
+        <script src=collectionBrowse.js></script>
+        <!-- selectize2 (apache license) plug-in to allow browsing the character table columns more easily -->
+        <!-- selectize.default = blue; selectize.legacy = green; selectize.bootstrap2=gray-gradient -->
+        <link rel="stylesheet" href="css/selectize.bootstrap2.css">
+        <script src="js/selectize.js"></script>
+
+
+<!-- end interactive table -->
+
+
+<div id=info-panel class="modal fade">
+    <div class=modal-dialog>
+        <div class=modal-content>
+            <div class=modal-header>
+                <h3>Information</h3>
+            </div>
+
+            <div class=modal-body>
+                <p>The application allows the user to add interspecies relationships to the contents of an already uploaded FeederWatch observation. The process is to enter an observation number, review the species observed, then add interactions one 
+                at a time. This application prototype has been developed by <a href='http://www.knowledgevis.com'> KnowledgeVis, LLC </a> of the Arbor program in support of Cornell University.</p>
+            </div>
+
+            <div class=modal-footer>
+                <a class="btn btn-default" data-dismiss=modal>OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class=navbar-header>
+        <a class=navbar-brand href=/examples>Arbor Feederwatch Iteraction </a>
+    </div>
+
+    <ul class="nav navbar-nav">
+        <li class=active> <a>FeederWatch Interaction</a>
+        <li><a style=cursor:pointer data-toggle=modal data-target=#info-panel><span class="glyphicon glyphicon-info-sign"></span> Info</a>
+    </ul>
+</div>
+   <div class=row>
+        <div class=col-md-6>
+            <h3 style="margin-left:30px">FeederWatch Interactions Editor</h3>
+             <p style="margin-left:30px; margin-right:20px">To load a FeederWatch observation and add interactions, enter the observation number to inspect and edit.  Then click "Lookup"</p>
+            <label style="margin-left:30px;"> Observation Number: </label><input id="observationNumber" style="margin-right:20px; margin-left:40px" />
+             <button id="retriveObservation" type="button" class="btn btn-primary">Lookup</button>
+        </div>
+        <!--
+        <div class=col-md-6 >
+            <h4 style="margin-left:20px">Table Selector</h4>
+            <p style="margin-right:20px;margin-left:20px">The selector below lists the datasets currently stored in IVaAN. Select a dataset and then choose the
+            desired operation. For example, pick a dataset and click the "Show Table" button to display the contents
+            of the table or click the "Delete Table" button to drop this table from the database. </p>
+            <select id="datasets" class="input-large" style="margin-left:20px; margin-top: 15px;"></select>
+            <div class=row style="margin-left:40px; margin-top:10px;">
+                <div id=showbutton class="btn btn-success offset1" style="margin-left: 45px; margin-top=30px;">Show Table</div>
+                <div id=deletebutton class="btn btn-success ">Delete Table</div>
+            </div>
+        </div>
+      -->
+    </div>
+<!--
+    <script>
+		document.getElementById('drop_zone').setAttribute("style","width:500px");
+		document.getElementById('drop_zone').setAttribute("style","height:200px");
+    </script>
+-->
+<!-- define controls for filtering the table.  Define two filter steps.  Each step has a selector for
+     the attribute, the operation (greaterThan, lessThan, etc.), and the value -->
+
+<hr>
+<div class=row style="margin-left: 20px;">
+        <div class=col-md-12 >
+            <h4 style="margin-top:10px">FeederWatch Observation Selected</h4>
+            <p style="margin-right:20px">Below is the list of species observations received from FeederWatch. Initially, the entire observation list 
+            is displayed. However, if a value is entered in the Filter field, only rows of the table containing matching strings will be displayed. To stop filtering, simply clear out the Filter field to display the entire table again. The number of rows of the table to display can be selected by editing the Rows per page selector below.</p>
+
+                <!--  Number of rows per page in chart -->
+                <div id="pagecontrol" style="margin-left:20px">
+                        <label for="pagecontrol">Rows per page: </label>
+                        <select id="pagesize" name="pagesize">
+                                <option value="100">100</option>
+                                <option value="50">50</option>
+                                <option value="25">25</option>
+                                <option value="20">20</option>
+                                <option value="15">15</option>
+                                <option value="10">10</option>
+                                <option value="5">5</option>
+                        </select>
+                </div>
+
+        Filter: <input type="text" id="filter" style="margin-right:20px; " />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="tablecontent" style="margin-left: 20px; margin-top:20px; margin-bottom:20px;" ></div>
+
+<!-- Paginator control; leave room for collapsed control panel below the paginator -->
+<div id="paginator" style="margin-bottom:50px; "></div>
+
+<!-- interspecies interaction panel portion of the UI -->
+
+<hr>
+<div class=row style="margin-left: 20px;">
+        <div class=col-md-6 >
+            <h4 style="margin-top:10px">Current Logged Interactions</h4>
+            <p style="margin-right:20px">Lines below list the interactions which have already been logged for the selected FeederWatch observation.  If an entry is made incorrectly, simply click the "delete" button and this entry will be immediately deleted from the database.</p>
+        </div>
+</div>
+<div id="interact_tablecontent" style="margin-left: 20px; margin-top:20px; margin-bottom:20px;" ></div>
+
+<hr>
+<div class=row style="margin-left: 20px;">
+        <div class=col-md-6 >
+            <h4 style="margin-top:10px">Add Interactions</h4>
+            <p style="margin-right:20px">Here is where we add interspecies interactions.</p>
+            <select id="sourcebird" class='form-control' style="margin-left:20px; margin-top: 15px;"></select>    
+            <select id="interactions" class='form-control' style="margin-left:20px; margin-top: 15px;"></select>   
+            <select id="targetbird" class='form-control' style="margin-left:20px; margin-top: 15px;"></select>
+            <button id="addInteraction" style='margin-top:20px; margin-left:20px;' type="button" class="btn btn-primary">Add</button>
+            <h4>  </h4>
+        </div>
+</div>
+
+
+
