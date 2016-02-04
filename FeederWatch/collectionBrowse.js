@@ -136,7 +136,8 @@ function update(tabledata) {
     // we would miss attributes contained only in later objects, but not in the first one.  Therefore, we
     // scan through results and adjust the metadata to include ALL attributes
 
-    var AttributesToDisplay = ['count','reviewed','speciesCode','species','obsDate']
+    //var AttributesToDisplay = ['count','reviewed','speciesCode','species','obsDate']
+    var AttributesToDisplay = ['species','count']
     var attrib;
     obs_metadata = [];
     var thisObject;
@@ -213,7 +214,7 @@ function update_interaction(tabledata) {
     // we would miss attributes contained only in later objects, but not in the first one.  Therefore, we
     // scan through results and adjust the metadata to include ALL attributes
 
-    var AttributesToDisplay = ['delete','subject','interaction','target']
+    var AttributesToDisplay = ['delete','source','interaction','target']
     var attrib;
     var attribindex;
     int_metadata = [];
@@ -328,7 +329,7 @@ function loadObservationTableDisplay(tablearray) {
     currentFilter = '';
 
     // filter when something is typed into filter
-    _$('filter').onkeyup = function() { obs_editableGrid.filter(_$('filter').value); obs_editableGrid.updatePaginator(); };
+    //_$('filter').onkeyup = function() { obs_editableGrid.filter(_$('filter').value); obs_editableGrid.updatePaginator(); };
 
     // render the table
     update(tablearray);

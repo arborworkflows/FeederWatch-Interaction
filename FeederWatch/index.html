@@ -55,6 +55,7 @@
 <!-- end interactive table -->
 
 
+
 <div id=info-panel class="modal fade">
     <div class=modal-dialog>
         <div class=modal-content>
@@ -63,8 +64,10 @@
             </div>
 
             <div class=modal-body>
-                <p>The application allows the user to add interspecies relationships to the contents of an already uploaded FeederWatch observation. The process is to enter an observation number, review the species observed, then add interactions one 
-                at a time. This application prototype has been developed by <a href='http://www.knowledgevis.com'> KnowledgeVis, LLC </a> of the Arbor program in support of Cornell University.</p>
+                <p>
+This page allows FeederWatch participants to add observations about bird interactions to their counts. Be sure to review our instructional pages ( <a href='http://feederwatch.org/blog/tell-us-about-bird-behavior-at-your-feeder' target="_blank">available by clicking here </a> ) before using this form. This application prototype has been developed by 
+                 <a href='http://www.knowledgevis.com' target="_blank"> KnowledgeVis, LLC </a> of the Arbor program in support of Cornell University.</p>
+                 <h5 >FeederWatch Interaction contact email:  <a href='mailto:feederwatch.interactions@gmail.com'>feederwatch.interactions@gmail.com</a></h5>
             </div>
 
             <div class=modal-footer>
@@ -74,6 +77,48 @@
     </div>
 </div>
 
+
+
+<div id=thanks-panel class="modal fade">
+    <div class=modal-dialog>
+        <div class=modal-content>
+            <div class=modal-header>
+                <h3>Thank you</h3>
+            </div>
+
+            <div class=modal-body>
+                <p>Thank you for entering your observations!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- video help pop-over panel -->
+
+<div id='video-panel' class="modal fade" data-wf="1"  data-description="intro video">
+    <div class=modal-dialog>
+        <div class=modal-content>
+            <div class=modal-header>
+                <h3>Intro Video</h3>
+            </div>
+
+            <div class=modal-body>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/vZK7qFRMC-Q" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class=modal-footer>
+                <a class="btn btn-default" data-dismiss=modal>Close Window</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <div class="navbar navbar-default navbar-fixed-top">
     <div class=navbar-header>
         <a class=navbar-brand href=/examples>Arbor Feederwatch Iteraction </a>
@@ -82,48 +127,28 @@
     <ul class="nav navbar-nav">
         <li class=active> <a>FeederWatch Interaction</a>
         <li><a style=cursor:pointer data-toggle=modal data-target=#info-panel><span class="glyphicon glyphicon-info-sign"></span> Info</a>
-    </ul>
+        <li><a style=cursor:pointer data-toggle=modal data-target=#video-panel><span class="glyphicon glyphicon-facetime-video"></span> Intro Video</a>
 </div>
    <div class=row>
         <div class=col-md-6>
-            <h3 style="margin-left:30px">FeederWatch Interactions Editor</h3>
-             <p style="margin-left:30px; margin-right:20px">To load a FeederWatch observation and add interactions, enter the observation number to inspect and edit.  Then click "Lookup"</p>
-            <label style="margin-left:30px;"> Observation Number: </label><input id="observationNumber" style="margin-right:20px; margin-left:40px" />
+            <h3 style="margin-left:30px">Bird Interaction Data From Project FeederWatch</h3>
+             <p style="margin-left:30px; margin-right:20px">To load a FeederWatch count and add interaction data, enter the FeederWatch count number here and click "lookup"</p>
+            <label style="margin-left:30px;"> FeederWatch Count: </label><input id="observationNumber" style="margin-right:20px; margin-left:40px" />
              <button id="retriveObservation" type="button" class="btn btn-primary">Lookup</button>
         </div>
-        <!--
-        <div class=col-md-6 >
-            <h4 style="margin-left:20px">Table Selector</h4>
-            <p style="margin-right:20px;margin-left:20px">The selector below lists the datasets currently stored in IVaAN. Select a dataset and then choose the
-            desired operation. For example, pick a dataset and click the "Show Table" button to display the contents
-            of the table or click the "Delete Table" button to drop this table from the database. </p>
-            <select id="datasets" class="input-large" style="margin-left:20px; margin-top: 15px;"></select>
-            <div class=row style="margin-left:40px; margin-top:10px;">
-                <div id=showbutton class="btn btn-success offset1" style="margin-left: 45px; margin-top=30px;">Show Table</div>
-                <div id=deletebutton class="btn btn-success ">Delete Table</div>
-            </div>
-        </div>
-      -->
+   
     </div>
-<!--
-    <script>
-		document.getElementById('drop_zone').setAttribute("style","width:500px");
-		document.getElementById('drop_zone').setAttribute("style","height:200px");
-    </script>
--->
-<!-- define controls for filtering the table.  Define two filter steps.  Each step has a selector for
-     the attribute, the operation (greaterThan, lessThan, etc.), and the value -->
+
 
 <hr>
 <div class=row style="margin-left: 20px;">
         <div class=col-md-12 >
             <h4 style="margin-top:10px">FeederWatch Observation Selected</h4>
-            <p style="margin-right:20px">Below is the list of species observations received from FeederWatch. Initially, the entire observation list 
-            is displayed. However, if a value is entered in the Filter field, only rows of the table containing matching strings will be displayed. To stop filtering, simply clear out the Filter field to display the entire table again. The number of rows of the table to display can be selected by editing the Rows per page selector below.</p>
+            <p style="margin-right:20px">Below is the list of species observations received from FeederWatch.  If necessary, the number of species observations displayed on this page can be selected by changing the selector below. </p>
 
                 <!--  Number of rows per page in chart -->
-                <div id="pagecontrol" style="margin-left:20px">
-                        <label for="pagecontrol">Rows per page: </label>
+                <div id="pagecontrol" style="margin-left:10px">
+                        <label for="pagecontrol">Species Observations per page: </label>
                         <select id="pagesize" name="pagesize">
                                 <option value="100">100</option>
                                 <option value="50">50</option>
@@ -134,16 +159,17 @@
                                 <option value="5">5</option>
                         </select>
                 </div>
+        <!-- commended out the filter field -->
+        <!-- Filter: <input type="text" id="filter" style="margin-right:20px; " />  -->
 
-        Filter: <input type="text" id="filter" style="margin-right:20px; " />
         </div>
     </div>
 </div>
 
 
+<p id='description' style="margin-left: 40px; margin-top:20px; margin-bottom:10px;"> </p>
 
-
-<div id="tablecontent" style="margin-left: 20px; margin-top:20px; margin-bottom:20px;" ></div>
+<div id="tablecontent" style="margin-left: 40px; margin-top:20px; margin-bottom:20px;" ></div>
 
 <!-- Paginator control; leave room for collapsed control panel below the paginator -->
 <div id="paginator" style="margin-bottom:50px; "></div>
@@ -151,26 +177,38 @@
 <!-- interspecies interaction panel portion of the UI -->
 
 <hr>
-<div class=row style="margin-left: 20px;">
-        <div class=col-md-6 >
-            <h4 style="margin-top:10px">Current Logged Interactions</h4>
-            <p style="margin-right:20px">Lines below list the interactions which have already been logged for the selected FeederWatch observation.  If an entry is made incorrectly, simply click the "delete" button and this entry will be immediately deleted from the database.</p>
-        </div>
-</div>
-<div id="interact_tablecontent" style="margin-left: 20px; margin-top:20px; margin-bottom:20px;" ></div>
 
-<hr>
+
 <div class=row style="margin-left: 20px;">
         <div class=col-md-6 >
             <h4 style="margin-top:10px">Add Interactions</h4>
-            <p style="margin-right:20px">Here is where we add interspecies interactions.</p>
-            <select id="sourcebird" class='form-control' style="margin-left:20px; margin-top: 15px;"></select>    
-            <select id="interactions" class='form-control' style="margin-left:20px; margin-top: 15px;"></select>   
+            <p style="margin-right:20px">Please add interspecies interactions observed:</p>
+            <h5>Source Species: Select the species that initiated the interaction</h5>
+            <select id="sourcebird" class='form-control' style="margin-left:20px; margin-top: 15px;"></select> 
+            <h5>Behavioral interaction:</h5>   
+            <select id="interactions" class='form-control' style="margin-left:20px; margin-top: 15px;"></select> 
+            <h5>Target Species: Select the species that was the target of the interaction</h5>  
             <select id="targetbird" class='form-control' style="margin-left:20px; margin-top: 15px;"></select>
-            <button id="addInteraction" style='margin-top:20px; margin-left:20px;' type="button" class="btn btn-primary">Add</button>
+            <button id="addInteraction" style='margin-top:20px; margin-left:20px;' type="button" class="btn btn-primary">Add Interaction</button>
             <h4>  </h4>
         </div>
 </div>
 
+<hr>
+<div class=row style="margin-left: 20px;">
+        <div class=col-md-6 >
+            <h4 style="margin-top:10px">Current Logged Interactions</h4>
+            <p style="margin-right:20px">Below is a list of the interactions you have reported for this count. If an entry is incorrect,  click on the box in the delete column and this entry will be immediately deleted from the database.</p>
+        </div>
+</div>
+<div id="interact_tablecontent" style="margin-left: 30px; margin-top:20px; margin-bottom:20px;" ></div>
 
+<button id="thanksAndResetButton" style="margin-left: 30px" type="button" class="btn btn-primary">Add observations for another count</button>
+
+ <hr>
+ <h4 style="margin-left: 20px">Contact Us!</h4>
+ <h5 style="margin-left: 20px">Project Feederwatch page: <a href='http://feederwatch.org/' target="_blank">http://feederwatch.org</a></h5>
+ <h5 style="margin-left: 20px">FeederWatch Interaction instructional pages:  <a href='http://feederwatch.org/blog/tell-us-about-bird-behavior-at-your-feeder' target="_blank">http://feederwatch.org/blog/tell-us-about-bird-behavior-at-your-feeder</a></h5>
+ <h5 style="margin-left: 20px; margin-bottom: 40px">FeederWatch Interaction contact email:  <a href='mailto:feederwatch.interactions@gmail.com'>feederwatch.interactions@gmail.com</a></h5>
+ 
 

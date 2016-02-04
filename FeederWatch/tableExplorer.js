@@ -52,6 +52,12 @@ if (file==null)
 }
 }
 
+function updateTextDescription(metadata) {
+    var Comments = "You are adding interaction data from "+metadata['location_name'] + " on "+ metadata['date']+ "."
+    Comments = Comments + "  Below is the list of species seen on this FeederWatch count:"
+    $('p#description').text(Comments);
+}
+
 
 // call a python service to examine the database and return a list of names for the tables currently stored.  Fill the selector
 // element on the webpage with the list
@@ -62,6 +68,7 @@ function retrieveObservation() {
         d3.json(serviceCall, function (error, table) {
             console.log('query:',serviceCall)
             console.log('retrieved:',table,"\n");
+            updateTextDescription(table['metadata'])
             loadObservationTableDisplay(table['observations']);
             initializeBehaviorSource();
             initializeBehaviorTarget();
@@ -173,6 +180,13 @@ function addInteractionRecord() {
    
 }
 
+function showThanksAndResetForm() {
+    $('#thanks-panel').modal("show")
+    window.setTimeout(function() {
+        $('#thanks-panel').modal("hide")
+        location.reload()
+    },3000)
+}
 
 
 // this function is called as soon as the page is finished loading
@@ -186,5 +200,14 @@ window.onload = function () {
         d3.select("#addInteraction")
             .on("click", addInteractionRecord);
 
+        d3.select("#thanksAndResetButton")
+            .on("click", showThanksAndResetForm);
+
+
+        $("#observationNumber").keyup(function(event){
+            if(event.keyCode == 13){
+                retrieveObservation();
+            }
+        });
 
 };

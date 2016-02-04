@@ -34,7 +34,7 @@ def run(obsid,source,target,interaction,name,lat,lng,datetime):
     # as a tuple [longitude,latitude] to be compatible with standard mongoDB geo practices
     try:
         location_point = [float(lng),float(lat)]
-        record = {'observation':obsid,'subject':source,'target':target,'interaction':interaction,'location_name':name,'location': location_point,'date':datetime}
+        record = {'observation':obsid,'source':source,'target':target,'interaction':interaction,'location_name':name,'location': location_point,'date':datetime}
         interactionCursor = data_coll.insert(record)
     except:
         response['error'] = "Could not write"
