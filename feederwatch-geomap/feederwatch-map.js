@@ -289,7 +289,7 @@ function retrieveData() {
                         thisOccurrence = {
                                 name: thisObs.location_name,
                                 date: thisObs.date,
-                                subject: thisObs.subject,
+                                source: thisObs.source,
                                 interaction: thisObs.interaction,
                                 target: thisObs.target,
                                 observation: thisObs.observation,
