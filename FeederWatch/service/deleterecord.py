@@ -32,14 +32,27 @@ def run(obsid,source,target,interaction):
     # split the single JSON object up into a hierarchy of objects by traversing the nested dictionaries and writing
     # documents in mongo during the traversal.  Store in a collection according to the name of the file dropped. The location is saved
     # as a tuple [longitude,latitude] to be compatible with standard mongoDB geo practices
-    try:
-        record = {'observation':obsid,'subject':source,'target':target,'interaction':interaction}
-        data_coll.remove(record)
-        # return the remaining records, so the UI can re-render
-        response['data'] = data_coll.find({'observation':obsid})
-    except:
-        response['error'] = "Could not write"
+
+    if source == 'null' and target == 'null':
+        # this is the case where the last record of this observation is being deleted
+        try:
+            record = {'observation':obsid}
+            data_coll.remove(record)
+            # return the remaining records, so the UI can re-render
+            response['data'] = data_coll.find({'observation':obsid})
+        except:
+            response['error'] = "Could not delete"
         return bson.json_util.dumps(response)
+    else:
+        # this is the ordinary case where one record out of many is being deleted
+        try:
+            record = {'observation':obsid,'source':source,'target':target,'interaction':interaction}
+            data_coll.remove(record)
+            # return the remaining records, so the UI can re-render
+            response['data'] = data_coll.find({'observation':obsid})
+        except:
+            response['error'] = "Could not delete"
+            return bson.json_util.dumps(response)
 
     connection.close()
 

@@ -7,6 +7,7 @@ import string
 import tangelo
 import time
 import csv
+import arrow
 
 def decode(s, argname, resp):
     try:
@@ -28,13 +29,13 @@ def run(obsid,source,target,interaction,name,lat,lng,datetime):
     db = connection["FeederWatch"]
     data_coll = db['interactions']
 
+    currenttime = arrow.now().timestamp
    
-    # split the single JSON object up into a hierarchy of objects by traversing the nested dictionaries and writing
-    # documents in mongo during the traversal.  Store in a collection according to the name of the file dropped. The location is saved
+    # Write out a single record for the observation.  The location is saved
     # as a tuple [longitude,latitude] to be compatible with standard mongoDB geo practices
     try:
         location_point = [float(lng),float(lat)]
-        record = {'observation':obsid,'source':source,'target':target,'interaction':interaction,'location_name':name,'location': location_point,'date':datetime}
+        record = {'observation':obsid,'source':source,'target':target,'interaction':interaction,'location_name':name,'location': location_point,'date':datetime,'recorded':currenttime}
         interactionCursor = data_coll.insert(record)
     except:
         response['error'] = "Could not write"

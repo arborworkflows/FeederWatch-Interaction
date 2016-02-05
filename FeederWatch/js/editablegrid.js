@@ -199,14 +199,30 @@ EditableGrid.prototype.readonlyWarning = function() {};
 EditableGrid.prototype.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, row) {
 	console.log('modelChanged:',rowIndex,columnIndex,newValue);
 	// make a call to the python service to delete the matching record
-    var record = int_rowdata[rowIndex]['values']
-    console.log(record)
-    var serviceCall = 'service/deleterecord/'+ record['observation'] + '/' + record['subject'] + '/' + record['target'] + '/' + record['interaction']
-    d3.json(serviceCall, function (error, table) {
+	if (rowIndex > -1) {
+		// this is the ordinary case where there are list elements left after this deletion is performed
+    	var record = int_rowdata[rowIndex]['values']
+    	console.log(record)
+    	var serviceCall = 'service/deleterecord/'+ record['observation'] + '/' + record['source'] + '/' + record['target'] + '/' + record['interaction']
+    	d3.json(serviceCall, function (error, table) {
             console.log('service call:',serviceCall)
             console.log('retrieved:',table,"\n");
             loadInteractionTableDisplay(table['data']);
         });
+     } else {
+     	// this is the case where we are deleting the only record left, so it is safe to delete all records corresponding 
+     	// to this observation ID.  The python service checks for source == target == 'null' to delete all interaction records for 
+     	// this observation ID. 
+        var currentObservationID = returnCurrentObservation()
+        var serviceCall =  'service/deleterecord/'+ currentObservationID + '/' + 'null' + '/' + 'null' + '/' + 'null'
+    	d3.json(serviceCall, function (error, table) {
+            console.log('service call:',serviceCall)
+            console.log('retrieved:',table,"\n");
+            //deleteInteractionTable()
+            loadInteractionTableDisplay(table['data']);
+        });
+
+     }
 };
 
 

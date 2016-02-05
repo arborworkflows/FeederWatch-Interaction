@@ -4,7 +4,7 @@
 var observationTable = []
 var interactionTable = []
 var SpeciesInThisObservation = new Set()
-var obs_interactions = ['Displaces','Predates','Mobs']
+var obs_interactions = ['Displaced','Predated','Mobbed']
 var CurrrentObservationMetadata = {}
 
 function load(file) {
@@ -188,6 +188,14 @@ function showThanksAndResetForm() {
     },3000)
 }
 
+
+function returnCurrentObservation() {
+    return d3.select("#observationNumber").node().value;
+}
+
+function deleteInteractionTable() {
+    d3.select("#interact_tablecontent").empty();
+}
 
 // this function is called as soon as the page is finished loading
 window.onload = function () {
