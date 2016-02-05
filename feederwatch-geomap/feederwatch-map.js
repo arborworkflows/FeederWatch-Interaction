@@ -796,7 +796,7 @@ window.onload = function () {
                 date = d.date;
 
                 msg = "";
-                msg += "subject: " + d.subject + "\n";
+                msg += "source: " + d.source + "\n";
                 msg += "interaction:" + d.interaction+ "\n";
                 msg += "target:" + d.target+ "\n";
                 msg += "date:" + d.date + "\n";
