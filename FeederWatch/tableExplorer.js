@@ -185,8 +185,18 @@ function showThanksAndResetForm() {
     window.setTimeout(function() {
         $('#thanks-panel').modal("hide")
         location.reload()
+        window.scrollTo(500, 0);
     },3000)
 }
+
+function allFinished() {
+    $('#return-panel').modal("show")
+    window.setTimeout(function() {
+        $('#thanks-panel').modal("hide")
+        window.location.href = "http://www.feederwatch.org"
+    },3000)
+}
+
 
 
 function returnCurrentObservation() {
@@ -210,6 +220,9 @@ window.onload = function () {
 
         d3.select("#thanksAndResetButton")
             .on("click", showThanksAndResetForm);
+
+        d3.select("#finishedButton")
+            .on("click", allFinished);
 
 
         $("#observationNumber").keyup(function(event){
